@@ -441,27 +441,48 @@
       x = clamp(x, 0, maxX());
       if (inst || RM) { strip.style.scrollSnapType = 'none'; strip.scrollLeft = x; } else strip.scrollTo({ left: x, behavior: 'smooth' });
     }
+    /* этапы: метки стоят равномерно, ручка и лента связаны по этапам (кусочно-линейно) */
+    var A = [];
     function place() {
       var max = maxX();
       scale.hidden = max < 6;
-      lbs.forEach(function (b) {
-        var fr = firstOf(+b.getAttribute('data-st'));
-        b.hidden = !fr;
-        if (fr) b.style.setProperty('--x', (max > 0 ? xOf(fr) / max : 0).toFixed(4));
+      var vis = lbs.filter(function (b) { var fr = firstOf(+b.getAttribute('data-st')); b.hidden = !fr; return !!fr; });
+      A = vis.map(function (b, k) {
+        var u = vis.length > 1 ? k / (vis.length - 1) : 0;
+        b.style.setProperty('--x', u.toFixed(4));
+        var x = k === 0 ? 0 : k === vis.length - 1 ? max : xOf(firstOf(+b.getAttribute('data-st')));
+        return { u: u, x: x, b: b };
       });
+      for (var k = 1; k < A.length; k++) if (A[k].x < A[k - 1].x) A[k].x = A[k - 1].x;
       upd();
     }
+    function xToU(x) {
+      if (A.length < 2) return 0;
+      for (var k = 1; k < A.length; k++) if (x <= A[k].x || k === A.length - 1) {
+        var a = A[k - 1], b = A[k], d = b.x - a.x;
+        return clamp(d > 0 ? a.u + (x - a.x) / d * (b.u - a.u) : b.u, 0, 1);
+      }
+      return 1;
+    }
+    function uToX(u) {
+      if (A.length < 2) return u * maxX();
+      for (var k = 1; k < A.length; k++) if (u <= A[k].u) {
+        var a = A[k - 1], b = A[k];
+        return a.x + (u - a.u) / (b.u - a.u) * (b.x - a.x);
+      }
+      return maxX();
+    }
     function upd() {
-      var max = maxX(), q = max > 0 ? clamp(strip.scrollLeft / max, 0, 1) : 0;
-      scale.style.setProperty('--p', q.toFixed(4));
-      line.setAttribute('aria-valuenow', Math.round(q * 100));
+      var u = xToU(strip.scrollLeft);
+      scale.style.setProperty('--p', u.toFixed(4));
+      line.setAttribute('aria-valuenow', Math.round(u * 100));
       var on = null;
-      lbs.forEach(function (l) { if (!l.hidden && parseFloat(l.style.getPropertyValue('--x') || 0) <= q + 0.03) on = l; });
+      A.forEach(function (a) { if (a.u <= u + 0.02) on = a.b; });
       lbs.forEach(function (l) { l.classList.toggle('on', l === on); });
     }
     /* ручка: тянуть по линии */
     var dragL = false;
-    function fromLine(e) { var r = line.getBoundingClientRect(); return clamp((e.clientX - r.left) / r.width, 0, 1) * maxX(); }
+    function fromLine(e) { var r = line.getBoundingClientRect(); return uToX(clamp((e.clientX - r.left) / r.width, 0, 1)); }
     line.addEventListener('pointerdown', function (e) { dragL = true; line.setPointerCapture(e.pointerId); scale.classList.add('is-drag'); go(fromLine(e), true); e.preventDefault(); });
     line.addEventListener('pointermove', function (e) { if (dragL) go(fromLine(e), true); });
     function endL() { if (!dragL) return; dragL = false; scale.classList.remove('is-drag'); strip.style.scrollSnapType = ''; }
@@ -472,7 +493,7 @@
       else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { go(strip.scrollLeft - st); e.preventDefault(); }
       else if (e.key === 'Home') { go(0); e.preventDefault(); } else if (e.key === 'End') { go(maxX()); e.preventDefault(); }
     });
-    lbs.forEach(function (b) { b.addEventListener('click', function () { var fr = firstOf(+b.getAttribute('data-st')); if (fr) go(xOf(fr)); }); });
+    lbs.forEach(function (b) { b.addEventListener('click', function () { for (var k = 0; k < A.length; k++) if (A[k].b === b) go(A[k].x); }); });
     /* кадры: тащить мышью */
     var dragS = null;
     strip.addEventListener('pointerdown', function (e) {
