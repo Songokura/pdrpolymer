@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&family=Golos+Text:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&family=Golos+Text:wght@400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="styles.css?v=20261111-3">
+<link rel="stylesheet" href="styles.css?v=20261111-5">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":["LocalBusiness","AutoRepair"],"name":"Pdr Polymer center","url":"https://songokura.github.io/pdrpolymer/","image":"https://songokura.github.io/pdrpolymer/assets/img/og-image.jpg","logo":"https://songokura.github.io/pdrpolymer/assets/img/logo-512.png","telephone":"+77789450969","email":"kuzoff.kz@gmail.com","address":{"@type":"PostalAddress","streetAddress":"Бауржан Момышулы 4а","addressLocality":"Астана","addressCountry":"KZ"},"areaServed":"Астана","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"19:30"},"sameAs":["https://www.instagram.com/dragoncar01","https://t.me/dragoncar01"],"description":"Удаление вмятин, ремонт царапин и сколов без покраски в Астане. Продажа полимера и обучение мастеров."}
 </script>
@@ -92,7 +92,6 @@
 
 <!-- Герой и закреплённая сцена «Два метода» -->
 <section class="stage-wrap" id="top">
-  <span class="anchor-methods" id="metody"></span>
   <div class="stage" id="stage">
     <div class="scene" id="scene" aria-hidden="true">
       <div class="sc-far" id="scFar"></div>
@@ -126,31 +125,39 @@
       <li><i style="--c:var(--metal)"></i><span data-i18n="hero.l4">Металл</span></li>
     </ul>
 
-    <div class="methods" id="methods">
-      <div class="m-head">
-        <p class="kick"><i class="ly"></i><span data-i18n="m.kicker">Методы</span></p>
-        <h2 class="h2 m-h2" data-i18n="m.h2">Два метода ремонта без покраски</h2>
-        <div class="m-prog" aria-hidden="true"><i id="mBar1"></i><i id="mBar2"></i></div>
-      </div>
-      <article class="m-step" id="mStep1">
-        <h3 class="h3" data-i18n="m.s1.t">PDR - удаление вмятин</h3>
-        <p data-i18n="m.s1.p">Мастер возвращает металл в исходную форму специальным инструментом с обратной стороны панели. Лак, краска и грунт остаются заводскими.</p>
-      </article>
-      <article class="m-step" id="mStep2">
-        <h3 class="h3" data-i18n="m.s2.t">Полимер - ремонт царапин и сколов</h3>
-        <p data-i18n="m.s2.p">Повреждение покрытия заполняется полимером локально, только в месте скола или царапины. Деталь не перекрашивается.</p>
-      </article>
-      <figure class="m-card" id="mCard1">
-        <div class="m-ph"><img src="assets/photos/m-76.webp" width="600" height="1067" alt="Вмятина под лампой до ремонта" data-i18n-alt="m.c1" decoding="async"></div>
+    <div class="scroll-hint" id="scrollHint" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+
+<!-- Два метода -->
+<section class="sec sec-methods" id="metody">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="kick"><i class="ly"></i><span data-i18n="m.kicker">Методы</span></p>
+      <h2 class="h2 split" data-i18n="m.h2">Два метода ремонта без покраски</h2>
+    </header>
+    <div class="m-cols">
+      <article class="m-col rv" id="mStep1">
+        <figure class="m-card" id="mCard1">
+        <div class="m-ph"><img src="assets/photos/m-76.webp" width="600" height="1067" alt="Вмятина под лампой до ремонта" data-i18n-alt="m.c1" loading="lazy" decoding="async"></div>
         <figcaption data-i18n="m.c1">Вмятина под лампой до ремонта</figcaption>
       </figure>
-      <figure class="m-card" id="mCard2">
+        <div class="m-step">
+        <h3 class="h3" data-i18n="m.s1.t">PDR - удаление вмятин</h3>
+        <p data-i18n="m.s1.p">Мастер возвращает металл в исходную форму специальным инструментом с обратной стороны панели. Лак, краска и грунт остаются заводскими.</p>
+      </div>
+      </article>
+      <article class="m-col rv" id="mStep2">
+        <figure class="m-card" id="mCard2">
         <div class="m-ph"><video id="mVid" muted loop playsinline preload="none" poster="assets/video/poster-7386.webp" data-src="assets/video/loop-7386.mp4"></video></div>
         <figcaption data-i18n="m.c2">Нанесение полимера</figcaption>
       </figure>
+        <div class="m-step">
+        <h3 class="h3" data-i18n="m.s2.t">Полимер - ремонт царапин и сколов</h3>
+        <p data-i18n="m.s2.p">Повреждение покрытия заполняется полимером локально, только в месте скола или царапины. Деталь не перекрашивается.</p>
+      </div>
+      </article>
     </div>
-
-    <div class="scroll-hint" id="scrollHint" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
@@ -455,7 +462,7 @@
           <li class="rv"><i class="ly"></i><span data-i18n="a.f3">Клиенты - частные лица, компании и организации</span></li>
         </ul>
       </div>
-      <figure class="about-master rise" data-par="-40">
+      <figure class="about-master rise">
         <div class="ph"><img src="assets/photos/trust-34.webp" width="1125" height="2000" alt="Мастер за работой" data-i18n-alt="a.c2" loading="lazy" decoding="async"></div>
         <figcaption data-i18n="a.c2">Мастер за работой</figcaption>
       </figure>
@@ -553,6 +560,6 @@
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/SplitText.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>
-<script src="script.js?v=20261111-3" defer></script>
+<script src="script.js?v=20261111-5" defer></script>
 </body>
 </html>
