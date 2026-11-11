@@ -70,7 +70,8 @@
   /* ---------- Шапка, меню ---------- */
   var hdr = $('#hdr'), stageWrap = $('.stage-wrap'), burger = $('.burger'), mnav = $('#mnav');
   function onScroll() {
-    hdr.classList.toggle('is-solid', window.scrollY > 24);
+    var lim = stageWrap.offsetHeight - window.innerHeight - 4;
+    hdr.classList.toggle('is-solid', window.scrollY > lim);
   }
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   function menu(open) {
@@ -85,7 +86,7 @@
   /* ---------- Плавная прокрутка ---------- */
   var lenis = null;
   if (window.Lenis && !RM) {
-    lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true });
+    lenis = new window.Lenis({ lerp: 0.075, wheelMultiplier: 0.9, smoothWheel: true });
     if (gsap && ST) {
       lenis.on('scroll', ST.update);
       gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
@@ -277,41 +278,44 @@
     far.style.transform = 'scale(' + (1 + (st.cs - 1) * 0.26).toFixed(4) + ')';
   }
 
-  /* Сцена играет сама, по времени: PDR выправляет вмятину, полимер заполняет скол, лампа сушит.
-     Прокрутка на неё не влияет. Пауза вне экрана и при reduced-motion. */
-  var tapOn = true;
   function buildTimeline() {
-    if (!gsap) return;
-    var g = G, set = function (v) { return function () { tapOn = v; }; };
-    var lampOff = g.mob ? 0 : 1;
-    tl = gsap.timeline({ repeat: -1, delay: 2.4, defaults: { ease: 'sine.inOut' }, onUpdate: function () { draw(); } });
-    tl.call(set(true))
-      .to({}, { duration: 2.2 })
-      .call(set(false))
-      .to(st, { ref: 1, duration: 0.9 })
-      .to(st, { k: 0, duration: 3.6, ease: 'power2.inOut' }, '<0.3')
-      .to(st, { ref: 0.5, duration: 1.2 }, '>0.4')
-      .to(st, { rod: 0, duration: 1 }, '<')
-      .to(st, { lampA: 1, duration: 0.8 }, '<')
-      .to(st, { app: 1, duration: 1, ease: 'power2.out' }, '>0.2')
-      .to(st, { fill: 1, duration: 2.2 }, '>0.1')
-      .to(st, { app: 0, duration: 0.8, ease: 'power2.in' }, '>0.1')
-      .to(st, { lamp: 1, cone: 1, duration: 1.2 }, '<0.2')
-      .to(st, { cure: 1, duration: 1.4 }, '>0.1')
-      .to(st, { cone: 0.32, lamp: 0, duration: 1.4 }, '>0.3')
-      .to({}, { duration: 2.6 })
-      .to('#scMain', { opacity: 0, duration: 0.9, ease: 'power1.in' })
-      .call(function () { st.k = 1; st.fill = 0; st.cure = 0; st.rod = 1; st.lampA = lampOff; draw(true); })
-      .to('#scMain', { opacity: 1, duration: 1.1, ease: 'power1.out' });
-    if (RM) { tl.progress(0.62).pause(); draw(true); }
+    if (!gsap || !ST) return;
+    var g = G, hero = $('#hero');
+    var c1 = g.mob ? { cs: 1.12, fx: g.xc, fy: g.y0 + 20, tx: g.W * 0.5, ty: g.H * 0.72 } : { cs: 1.42, fx: g.xc, fy: g.y0 + 30, tx: g.W * 0.5, ty: g.H * 0.62 };
+    var c2 = g.mob ? { cs: 1.9, fx: g.xs, fy: g.y0 - 10, tx: g.W * 0.5, ty: g.H * 0.74 } : { cs: 2.15, fx: g.xs, fy: g.y0 - 14, tx: g.W * 0.61, ty: g.H * 0.68 };
+    var head = $('.m-head'), s1 = $('#mStep1'), s2 = $('#mStep2'), k1 = $('#mCard1'), k2 = $('#mCard2');
+    gsap.set([head, s1, s2, k1, k2], { autoAlpha: 0 });
+    tl = gsap.timeline({ defaults: { ease: 'none' }, onUpdate: function () { draw(); stageVideo(); }, scrollTrigger: { trigger: stageWrap, start: 'top top', end: 'bottom bottom', scrub: 1.4 } });
+    tl.to(hero, { autoAlpha: 0, y: -30, duration: 1.0, ease: 'sine.inOut' }, 0.25)
+      .to(['#scLabels', '#legend', '#scrollHint'], { autoAlpha: 0, duration: 0.8, ease: 'sine.inOut' }, 0.25)
+      .to(st, { cs: c1.cs, fx: c1.fx, fy: c1.fy, tx: c1.tx, ty: c1.ty, duration: 1.6, ease: 'sine.inOut' }, 0.35)
+      .fromTo([head, s1], { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'sine.out' }, 1.0)
+      .fromTo(k1, { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' }, 1.2)
+      .to(st, { ref: 1, duration: 0.5 }, 1.4)
+      .to(st, { k: 0, duration: 2.8, ease: 'power1.inOut' }, 1.9)
+      .to('#mBar1', { '--p': 1, duration: 2.8 }, 1.9)
+      .to(st, { ref: 0, duration: 0.5 }, 4.7)
+      .to([s1, k1], { autoAlpha: 0, y: -24, duration: 0.7, ease: 'sine.in' }, 4.9)
+      .to(st, { rod: 0, duration: 0.5 }, 5.0)
+      .to(st, { cs: c2.cs, fx: c2.fx, fy: c2.fy, tx: c2.tx, ty: c2.ty, lampA: 1, duration: 1.5, ease: 'sine.inOut' }, 5.0)
+      .fromTo(s2, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'sine.out' }, 6.0)
+      .fromTo(k2, { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' }, 6.1)
+      .to(st, { app: 1, duration: 0.6, ease: 'power2.out' }, 6.2)
+      .to(st, { fill: 1, duration: 1.5 }, 6.8)
+      .to('#mBar2', { '--p': 1, duration: 2.9 }, 6.8)
+      .to(st, { app: 0, duration: 0.5, ease: 'power2.in' }, 8.3)
+      .to(st, { lamp: 1, cone: 1, duration: 0.7, ease: 'power2.inOut' }, 8.4)
+      .to(st, { cure: 1, duration: 0.9 }, 9.0)
+      .to(st, { cone: 0.12, duration: 0.4 }, 9.9)
+      .to({}, { duration: 0.6 });
   }
 
   var mVid = $('#mVid');
-  if (mVid && !RM && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (en) {
-      if (en[0].isIntersecting) { if (!mVid.src) mVid.src = mVid.getAttribute('data-src'); var pr = mVid.play(); if (pr && pr.catch) pr.catch(function () {}); }
-      else if (!mVid.paused) mVid.pause();
-    }, { threshold: 0.25 }).observe(mVid);
+  function stageVideo() {
+    if (!mVid || !tl || RM) return;
+    var on = tl.progress() > 0.56;
+    if (on && mVid.paused) { if (!mVid.src) mVid.src = mVid.getAttribute('data-src'); var pr = mVid.play(); if (pr && pr.catch) pr.catch(function () {}); }
+    else if (!on && !mVid.paused) mVid.pause();
   }
 
   function intro() {
@@ -330,8 +334,8 @@
   }
 
   function setupScene() {
-    if (tl) { tl.kill(); tl = null; }
-    if (gsap) gsap.set('#scMain', { opacity: 1 });
+    if (tl) { if (tl.scrollTrigger) tl.scrollTrigger.kill(); tl.kill(); tl = null; }
+    if (gsap) gsap.set(['#hero', '#scLabels', '#legend', '#scrollHint', '.m-head', '#mStep1', '#mStep2', '#mCard1', '#mCard2'], { clearProps: 'all' });
     st.k = 1; st.tap = 0; st.fill = 0; st.cure = 0; st.lamp = 0; st.cone = 0.32; st.rod = 1; st.app = 0; st.ref = 0.5;
     buildScene(); draw(true); buildTimeline();
     if (ST) ST.refresh();
@@ -351,13 +355,13 @@
   /* фоновая жизнь сцены: лёгкие нажимы инструмента, пауза вне экрана */
   var stageOn = true;
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (en) { stageOn = en[0].isIntersecting; stage.classList.toggle('is-off', !stageOn); if (tl && !RM) { stageOn ? tl.resume() : tl.pause(); } }).observe(stage);
+    new IntersectionObserver(function (en) { stageOn = en[0].isIntersecting; stage.classList.toggle('is-off', !stageOn); }).observe(stage);
   }
   if (gsap && !RM) {
     gsap.ticker.add(function (time) {
       if (!stageOn || !G || document.hidden) return;
-      var tap = 0;
-      if (tapOn && st.k > 0.98) { var s = Math.sin(time * Math.PI * 2 / 2.8); tap = s > 0 ? Math.pow(s, 8) * 0.07 : 0; }
+      var p = tl ? tl.progress() : 0, tap = 0;
+      if (p < 0.5 && st.k > 0.02) { var s = Math.sin(time * Math.PI * 2 / 2.8); tap = s > 0 ? Math.pow(s, 8) * 0.07 : 0; }
       if (tap !== st.tap) { st.tap = tap; draw(); }
       var leds = 0.55 + 0.45 * Math.sin(time * 3.1);
       if (E.Lamp) E.Lamp.style.setProperty('--led', leds.toFixed(2));
@@ -385,9 +389,9 @@
     });
     $$('.kick .ly').forEach(function (el) { gsap.from(el, { scaleX: 0, transformOrigin: 'left center', duration: 0.8, ease: EASE, scrollTrigger: { trigger: el, start: 'top 92%', once: true } }); });
     var track = $('#track');
-    if (track) gsap.fromTo($('.track-svg'), { '--d': 0 }, { '--d': 1, ease: 'none', scrollTrigger: { trigger: track, start: 'top 82%', end: 'top 28%', scrub: 0.6 } });
+    if (track) gsap.fromTo($('.track-svg'), { '--d': 0 }, { '--d': 1, ease: 'none', scrollTrigger: { trigger: track, start: 'top 82%', end: 'top 28%', scrub: 1 } });
     var cl = $('.c-lines');
-    if (cl) gsap.fromTo(cl, { '--d': 0 }, { '--d': 1, ease: 'none', scrollTrigger: { trigger: cl, start: 'top 95%', end: 'top 40%', scrub: 0.6 } });
+    if (cl) gsap.fromTo(cl, { '--d': 0 }, { '--d': 1, ease: 'none', scrollTrigger: { trigger: cl, start: 'top 95%', end: 'top 40%', scrub: 1 } });
     $$('.edu-art').forEach(function (svg) {
       var ps = $$('.e-ln, .e-ref', svg);
       ps.forEach(function (p) { var L = p.getTotalLength(); if (!p.classList.contains('e-ref')) { p.style.strokeDasharray = L; p.style.strokeDashoffset = L; } });
