@@ -56,8 +56,7 @@ window.SITE_EN = {
   "w.st0": "Before",
   "w.st1": "In progress",
   "w.st2": "After",
-  "w.prev": "Previous frame",
-  "w.next": "Next frame",
+  "w.slider": "Repair frames",
   "w.ig": "More work on Instagram",
 
   "t.kicker": "Terms",

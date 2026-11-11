@@ -432,25 +432,75 @@
 
   /* ---------- Ленты работ ---------- */
   $$('[data-tape]').forEach(function (tp) {
-    var strip = $('.tape-strip', tp), frs = $$('.fr', tp), prev = $('.prev', tp), next = $('.next', tp), nav = $('.tape-nav', tp), scale = $('.scale', tp), lbs = $$('.scale-lb span', tp);
-    function step() { return frs.length > 1 ? frs[1].offsetLeft - frs[0].offsetLeft : strip.clientWidth; }
-    function upd() {
-      var max = strip.scrollWidth - strip.clientWidth, x = strip.scrollLeft;
-      nav.hidden = max < 6;
-      prev.disabled = x < 4; next.disabled = x > max - 4;
-      var f = max > 0 ? clamp(x / max, 0, 1) * (frs.length - 1) : 0;
-      var a = Math.floor(f), b = Math.min(frs.length - 1, a + 1), m = f - a;
-      var sa = +frs[a].getAttribute('data-st'), sb = +frs[b].getAttribute('data-st');
-      var p = (sa + (sb - sa) * m) / 2;
-      scale.style.setProperty('--p', p.toFixed(3));
-      var on = Math.round(p * 2);
-      lbs.forEach(function (l) { l.classList.toggle('on', +l.getAttribute('data-st') === on); });
+    var strip = $('.tape-strip', tp), frs = $$('.fr', tp), scale = $('.scale', tp), line = $('.scale-line', tp), lbs = $$('.scale-lb button', tp);
+    var pad = function () { return parseFloat(getComputedStyle(strip).paddingLeft) || 0; };
+    var maxX = function () { return Math.max(0, strip.scrollWidth - strip.clientWidth); };
+    function firstOf(stg) { for (var i = 0; i < frs.length; i++) if (+frs[i].getAttribute('data-st') === stg) return frs[i]; return null; }
+    function xOf(fr) { return clamp(fr.offsetLeft - pad(), 0, maxX()); }
+    function go(x, inst) {
+      x = clamp(x, 0, maxX());
+      if (inst || RM) { strip.style.scrollSnapType = 'none'; strip.scrollLeft = x; } else strip.scrollTo({ left: x, behavior: 'smooth' });
     }
-    prev.addEventListener('click', function () { strip.scrollBy({ left: -step(), behavior: RM ? 'auto' : 'smooth' }); });
-    next.addEventListener('click', function () { strip.scrollBy({ left: step(), behavior: RM ? 'auto' : 'smooth' }); });
+    function place() {
+      var max = maxX();
+      scale.hidden = max < 6;
+      lbs.forEach(function (b) {
+        var fr = firstOf(+b.getAttribute('data-st'));
+        b.hidden = !fr;
+        if (fr) b.style.setProperty('--x', (max > 0 ? xOf(fr) / max : 0).toFixed(4));
+      });
+      upd();
+    }
+    function upd() {
+      var max = maxX(), q = max > 0 ? clamp(strip.scrollLeft / max, 0, 1) : 0;
+      scale.style.setProperty('--p', q.toFixed(4));
+      line.setAttribute('aria-valuenow', Math.round(q * 100));
+      var on = null;
+      lbs.forEach(function (l) { if (!l.hidden && parseFloat(l.style.getPropertyValue('--x') || 0) <= q + 0.03) on = l; });
+      lbs.forEach(function (l) { l.classList.toggle('on', l === on); });
+    }
+    /* ручка: тянуть по линии */
+    var dragL = false;
+    function fromLine(e) { var r = line.getBoundingClientRect(); return clamp((e.clientX - r.left) / r.width, 0, 1) * maxX(); }
+    line.addEventListener('pointerdown', function (e) { dragL = true; line.setPointerCapture(e.pointerId); scale.classList.add('is-drag'); go(fromLine(e), true); e.preventDefault(); });
+    line.addEventListener('pointermove', function (e) { if (dragL) go(fromLine(e), true); });
+    function endL() { if (!dragL) return; dragL = false; scale.classList.remove('is-drag'); strip.style.scrollSnapType = ''; }
+    line.addEventListener('pointerup', endL); line.addEventListener('pointercancel', endL);
+    line.addEventListener('keydown', function (e) {
+      var st = frs.length > 1 ? frs[1].offsetLeft - frs[0].offsetLeft : strip.clientWidth;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { go(strip.scrollLeft + st); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { go(strip.scrollLeft - st); e.preventDefault(); }
+      else if (e.key === 'Home') { go(0); e.preventDefault(); } else if (e.key === 'End') { go(maxX()); e.preventDefault(); }
+    });
+    lbs.forEach(function (b) { b.addEventListener('click', function () { var fr = firstOf(+b.getAttribute('data-st')); if (fr) go(xOf(fr)); }); });
+    /* кадры: тащить мышью */
+    var dragS = null;
+    strip.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      dragS = { x: e.clientX, l: strip.scrollLeft, moved: false };
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!dragS) return;
+      var dx = e.clientX - dragS.x;
+      if (!dragS.moved && Math.abs(dx) > 4) { dragS.moved = true; strip.classList.add('is-drag'); strip.style.scrollSnapType = 'none'; }
+      if (dragS.moved) strip.scrollLeft = dragS.l - dx;
+    });
+    window.addEventListener('pointerup', function () {
+      if (!dragS) return;
+      var moved = dragS.moved; dragS = null;
+      if (!moved) return;
+      strip.classList.remove('is-drag');
+      var best = 0, bd = 1e9;
+      frs.forEach(function (f) { var d = Math.abs(xOf(f) - strip.scrollLeft); if (d < bd) { bd = d; best = xOf(f); } });
+      go(best);
+      setTimeout(function () { strip.style.scrollSnapType = ''; }, 450);
+    });
+    strip.addEventListener('click', function (e) { if (strip.classList.contains('is-drag')) e.preventDefault(); }, true);
+    strip.addEventListener('dragstart', function (e) { e.preventDefault(); });
     strip.addEventListener('scroll', upd, { passive: true });
-    window.addEventListener('resize', upd);
-    upd();
+    window.addEventListener('resize', place);
+    window.addEventListener('load', place);
+    place();
   });
 
   /* ---------- Видео-петли ---------- */
