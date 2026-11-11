@@ -160,8 +160,9 @@
       '</svg>';
 
     /* основной план */
-    var chip = [[-cw, 0], [-cw * 0.62, tk[0] * 0.55], [-cw * 0.5, tk[0] * 1.02], [-cw * 0.2, tk[0] + tk[1] * 0.75], [cw * 0.05, tk[0] + tk[1] * 1.05], [cw * 0.3, tk[0] + tk[1] * 0.6], [cw * 0.42, tk[0] * 0.95], [cw * 0.7, tk[0] * 0.5], [cw, 0]]
-      .map(function (p) { return P(xs + p[0]) + ',' + P(y0 + p[1]); }).join(' ');
+    var cd = tk[0] + tk[1] * 1.05;
+    var chip = 'M' + P(xs - cw) + ' ' + P(y0) + 'C' + P(xs - cw * 0.72) + ' ' + P(y0 + 1) + ' ' + P(xs - cw * 0.62) + ' ' + P(y0 + cd) + ' ' + P(xs) + ' ' + P(y0 + cd) + 'C' + P(xs + cw * 0.62) + ' ' + P(y0 + cd) + ' ' + P(xs + cw * 0.72) + ' ' + P(y0 + 1) + ' ' + P(xs + cw) + ' ' + P(y0) + 'Z';
+    var chipRim = 'M' + P(xs - cw) + ' ' + P(y0) + 'C' + P(xs - cw * 0.72) + ' ' + P(y0 + 1) + ' ' + P(xs - cw * 0.62) + ' ' + P(y0 + cd) + ' ' + P(xs) + ' ' + P(y0 + cd) + 'C' + P(xs + cw * 0.62) + ' ' + P(y0 + cd) + ' ' + P(xs + cw * 0.72) + ' ' + P(y0 + 1) + ' ' + P(xs + cw) + ' ' + P(y0);
     var refl = '';
     boxes.forEach(function (b) {
       var x = W * b[0], w = W * b[1] * 0.9, sk = band * 0.55;
@@ -183,12 +184,13 @@
       '<pattern id="sgFlake" width="17" height="11" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".9" fill="#fff" opacity=".5"/><circle cx="11" cy="7" r=".7" fill="#fff" opacity=".35"/><circle cx="14" cy="2" r=".5" fill="#fff" opacity=".4"/></pattern>' +
       '<pattern id="sgHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><rect width="1.200" height="7" fill="#fff" opacity=".16"/></pattern>' +
       '<pattern id="sgGrid" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#0F1B2D" stroke-opacity=".05"/></pattern>' +
-      '<clipPath id="sgChipClip"><polygon points="' + chip + '"/></clipPath>' +
+      '<clipPath id="sgChipClip"><path d="' + chip + '"/></clipPath>' +
+      '<linearGradient id="sgChipG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF2F7"/><stop offset="1" stop-color="#C9D3DE"/></linearGradient>' +
       '</defs>' +
       '<path id="sgSurfP" fill="url(#sgSurf)"/>' +
       '<g id="sgReflG">' + refl + '<polygon class="sg-sweep sc-anim" points="0,' + P(yb) + ' ' + P(W * 0.08) + ',' + P(yb) + ' ' + P(W * 0.08 - band * 0.55) + ',' + P(y0) + ' ' + P(-band * 0.55) + ',' + P(y0) + '" fill="url(#sgRefl)"/></g>' +
       '<ellipse id="sgDim" cx="' + P(xc) + '" cy="' + P(y0 + dd * 0.1) + '" rx="' + P(dw * 1.3) + '" ry="' + P(band * 0.46) + '" fill="url(#sgDimG)"/>' +
-      '<ellipse id="sgSpot" cx="' + P(xs - cw * 0.5) + '" cy="' + P(y0 - 4 * sc) + '" rx="' + P(cw * 0.95) + '" ry="' + P(4.5 * sc) + '" fill="#0F1B2D" opacity=".28"/>' +
+      
       '<path id="sgCavP" fill="url(#sgCav)"/><path id="sgCavG" fill="url(#sgGrid)"/>' +
       '<rect x="' + P(X0) + '" y="' + P(skinY) + '" width="' + P(X1 - X0) + '" height="' + P(H) + '" fill="url(#sgSkin)"/><rect x="' + P(X0) + '" y="' + P(skinY) + '" width="' + P(X1 - X0) + '" height="2" fill="#fff" opacity=".8"/>' + slots +
       '<g id="sgRod"><g id="sgRodIn"><path d="M' + P(xc - W * 0.8) + ' ' + P(H + 40 * sc) + 'L' + P(xc - 96 * sc) + ' ' + P(yR + 50 * sc) + 'Q' + P(xc - 30 * sc) + ' ' + P(yR + 46 * sc) + ' ' + P(xc - 6 * sc) + ' ' + P(yR + 14 * sc) + '" fill="none" stroke="#17243A" stroke-width="' + P(9 * sc) + '" stroke-linecap="round" stroke-linejoin="round"/>' +
@@ -199,9 +201,10 @@
       '<path id="sgBot" fill="none" stroke="#4E5967" stroke-width="1.600"/>' +
       '<path id="sgEdge" fill="none" stroke="#0F1B2D" stroke-opacity=".22" stroke-width="1"/><path id="sgHi" fill="none" stroke="#fff" stroke-width="' + P(2.4 * sc) + '" stroke-linecap="round"/></g>' +
       '<g id="sgRip" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.600">' + [9, 16, 23].map(function (r, i) { r *= sc; return '<path class="rp rp' + i + '" d="M' + P(xc - r) + ' ' + P(yM - 3 * sc) + 'A' + P(r) + ' ' + P(r) + ' 0 0 1 ' + P(xc + r) + ' ' + P(yM - 3 * sc) + '"/>'; }).join('') + '</g>' +
-      '<g id="sgChip"><polygon points="' + chip + '" fill="#E7EDF4" stroke="#0F1B2D" stroke-opacity=".28" stroke-width="1"/>' +
-      '<path d="M' + P(xs - cw * 0.62) + ' ' + P(y0 + tk[0] * 0.55) + 'l' + P(-cw * 0.5) + ' ' + P(tk[0] * 0.2) + 'M' + P(xs + cw * 0.7) + ' ' + P(y0 + tk[0] * 0.5) + 'l' + P(cw * 0.45) + ' ' + P(tk[0] * 0.26) + '" stroke="#0F1B2D" stroke-opacity=".3" stroke-width="1" fill="none"/>' +
+      '<g id="sgChip"><path d="' + chip + '" fill="url(#sgChipG)"/>' +
+      '<path d="' + chipRim + '" fill="none" stroke="#0F1B2D" stroke-opacity=".3" stroke-width="1.200"/>' +
       '<g clip-path="url(#sgChipClip)"><rect id="sgPoly" x="' + P(xs - cw - 2) + '" width="' + P(cw * 2 + 4) + '" y="' + P(y0 + chipD) + '" height="0" fill="#6A5BFF"/><rect id="sgPolyGl" x="' + P(xs - cw - 2) + '" width="' + P(cw * 2 + 4) + '" y="' + P(y0 + chipD) + '" height="' + P(3 * sc) + '" fill="#fff" opacity=".55"/></g>' +
+      '<ellipse id="sgSpot" cx="' + P(xs) + '" cy="' + P(y0 + cd * 0.82) + '" rx="' + P(cw * 0.42) + '" ry="' + P(3 * sc) + '" fill="#0F1B2D" opacity=".28"/>' +
       '<path id="sgChipHi" d="M' + P(xs - cw - 1) + ' ' + P(y0) + 'H' + P(xs + cw + 1) + '" stroke="#fff" stroke-width="' + P(2.4 * sc) + '" opacity="0"/></g>' +
       '<g id="sgRef"><path d="M' + P(xc - dw * 1.75) + ' ' + P(y0) + 'H' + P(xc + dw * 1.75) + '" stroke="#2F5F8A" stroke-width="1.500" stroke-dasharray="7 6" fill="none"/><path d="M' + P(xc - dw * 1.75) + ' ' + P(y0 - 7) + 'v14M' + P(xc + dw * 1.75) + ' ' + P(y0 - 7) + 'v14" stroke="#2F5F8A" stroke-width="1.500"/></g>' +
       '<ellipse id="sgUvSpot" cx="' + P(xs) + '" cy="' + P(y0) + '" rx="' + P(cw * 3.4) + '" ry="' + P(11 * sc) + '" fill="url(#sgUvG)"/>' +
