@@ -251,8 +251,8 @@ body.menu-open .hdr{background:#fff}
 .fr[data-st="1"] figcaption::before{background:var(--lac)}
 .fr[data-st="2"] figcaption::before{background:var(--blue)}
 /* До/после: шторка */
-.ba-wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(28px,4vw,72px);align-items:center;margin-top:clamp(36px,4vw,64px)}
-.ba{position:relative;height:min(76svh,720px);aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:#d9dee5;user-select:none;touch-action:pan-y}
+.ba-wrap{display:grid;grid-template-columns:min(78svh,760px,62%) minmax(0,1fr);gap:clamp(28px,4vw,72px);align-items:center;margin-top:clamp(36px,4vw,64px)}
+.ba{position:relative;width:100%;aspect-ratio:1/1;border-radius:22px;overflow:hidden;background:#d9dee5;user-select:none;touch-action:pan-y}
 .ba-l{position:absolute;inset:0}
 .ba-l img,.ba-l video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ba-after{clip-path:inset(0 0 0 var(--x))}
