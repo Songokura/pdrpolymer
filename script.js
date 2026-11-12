@@ -453,6 +453,42 @@
     if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { if (tw) en[0].isIntersecting ? tw.play() : tw.pause(); }).observe(tr.parentNode);
   })();
 
+  /* ---------- До/после: шторка и кейсы ---------- */
+  (function () {
+    var ba = $('#ba'); if (!ba) return;
+    var range = $('.ba-range', ba), lb = $('.ba-before', ba), la = $('.ba-after', ba);
+    function setX() { ba.style.setProperty('--x', range.value + '%'); }
+    range.addEventListener('input', setX);
+    function fill(layer, img, vid, alt) {
+      layer.innerHTML = '';
+      if (vid) {
+        var v = document.createElement('video');
+        v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto'; v.poster = img; v.src = vid;
+        if (!RM) v.autoplay = true;
+        layer.appendChild(v);
+      } else {
+        var im = document.createElement('img');
+        im.src = img; im.alt = alt; im.decoding = 'async';
+        layer.appendChild(im);
+      }
+    }
+    var cs = $$('.ba-case');
+    cs.forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.classList.contains('is-on')) return;
+        cs.forEach(function (o) { var on = o === b; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+        var name = b.textContent.trim();
+        fill(lb, b.getAttribute('data-b'), b.getAttribute('data-vb'), name + ' - ' + t('w.st0'));
+        fill(la, b.getAttribute('data-a'), b.getAttribute('data-va'), name + ' - ' + t('w.st2'));
+        range.value = 50; setX();
+      });
+    });
+    /* видео играют только на экране */
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) {
+      $$('video', ba).forEach(function (v) { if (en[0].isIntersecting && !RM) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
+    }).observe(ba);
+  })();
+
   /* ---------- Ленты работ ---------- */
   $$('[data-tape]').forEach(function (tp) {
     var strip = $('.tape-strip', tp), frs = $$('.fr', tp), scale = $('.scale', tp), line = $('.scale-line', tp), lbs = $$('.scale-lb button', tp);

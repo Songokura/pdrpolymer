@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&family=Golos+Text:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&family=Golos+Text:wght@400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="styles.css?v=20261112-2">
+<link rel="stylesheet" href="styles.css?v=20261112-3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":["LocalBusiness","AutoRepair"],"name":"Pdr Polymer center","url":"https://songokura.github.io/pdrpolymer/","image":"https://songokura.github.io/pdrpolymer/assets/img/og-image.jpg","logo":"https://songokura.github.io/pdrpolymer/assets/img/logo-512.png","telephone":"+77789450969","email":"kuzoff.kz@gmail.com","address":{"@type":"PostalAddress","streetAddress":"Бауржан Момышулы 4а","addressLocality":"Астана","addressCountry":"KZ"},"areaServed":"Астана","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"19:30"},"sameAs":["https://www.instagram.com/dragoncar01","https://t.me/dragoncar01"],"description":"Удаление вмятин, ремонт царапин и сколов без покраски в Астане. Продажа полимера и обучение мастеров."}
 </script>
@@ -235,76 +235,29 @@
     <header class="sec-head">
       <p class="kick"><i class="ly"></i><span data-i18n="w.kicker">Работы</span></p>
       <h2 class="h2 split" data-i18n="w.h2">Ремонт от начала до результата</h2>
-      <p class="lead rv" data-i18n="w.lead">Каждая лента - один автомобиль: повреждение, работа мастера и готовая деталь.</p>
+      <p class="lead rv" data-i18n="w.lead">Реальные автомобили из нашего цеха: повреждение до ремонта и та же деталь после.</p>
     </header>
   </div>
 
-  <article class="tape" data-tape>
-    <div class="wrap tape-top">
-      <h3 class="h3" data-i18n="w.t3">Вмятина под лампой: до и после</h3>
-      <div class="scale">
-        <div class="scale-line" role="slider" tabindex="0" aria-label="Кадры ремонта" data-i18n-aria="w.slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="scale-fill"></i><b class="scale-dot"></b></div>
-        <div class="scale-lb"><button type="button" data-st="0" data-i18n="w.st0">До</button><button type="button" data-st="1" data-i18n="w.st1">В работе</button><button type="button" data-st="2" data-i18n="w.st2">После</button></div>
+  <div class="wrap ba-wrap">
+    <div class="ba" id="ba" style="--x:50%">
+      <div class="ba-l ba-before"><img src="assets/photos/work-8579.webp" width="1125" height="2000" alt="Переднее крыло до ремонта" loading="lazy" decoding="async"></div>
+      <div class="ba-l ba-after"><img src="assets/photos/work-8829.webp" width="1125" height="2000" alt="Переднее крыло после ремонта" loading="lazy" decoding="async"></div>
+      <span class="ba-tag" data-i18n="w.st0">До</span>
+      <span class="ba-tag ba-tag-a" data-i18n="w.st2">После</span>
+      <div class="ba-line" aria-hidden="true"><span class="ba-knob"><svg width="22" height="22" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
+      <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Сравнение до и после" data-i18n-aria="w.slider">
+    </div>
+    <aside class="ba-side rv">
+      <div class="ba-cases" role="group" aria-label="Работы">
+        <button type="button" class="ba-case is-on" aria-pressed="true" data-b="assets/photos/work-8579.webp" data-a="assets/photos/work-8829.webp" data-i18n="w.c1">Переднее крыло</button>
+        <button type="button" class="ba-case" aria-pressed="false" data-b="assets/photos/card-75.webp" data-a="assets/photos/work-8913.webp" data-i18n="w.c2">Крышка багажника</button>
+        <button type="button" class="ba-case" aria-pressed="false" data-b="assets/photos/work-7636.webp" data-a="assets/photos/work-7674.webp" data-i18n="w.c3">Заднее крыло</button>
+        <button type="button" class="ba-case" aria-pressed="false" data-vb="assets/video/loop-7446.mp4" data-b="assets/video/poster-7446.webp" data-va="assets/video/loop-7495.mp4" data-a="assets/video/poster-7495.webp" data-i18n="w.c4">Видео под лампой</button>
       </div>
-    </div>
-    <div class="tape-strip" tabindex="0">
-      <figure class="fr" data-st="0"><div class="fr-ph"><video class="loop" muted loop playsinline preload="none" poster="assets/video/poster-7446.webp" data-src="assets/video/loop-7446.mp4"></video></div><figcaption data-i18n="w.st0">До</figcaption></figure>
-      <figure class="fr" data-st="2"><div class="fr-ph"><video class="loop" muted loop playsinline preload="none" poster="assets/video/poster-7495.webp" data-src="assets/video/loop-7495.mp4"></video></div><figcaption data-i18n="w.st2">После</figcaption></figure>
-    </div>
-  </article>
-
-  <article class="tape" data-tape>
-    <div class="wrap tape-top">
-      <h3 class="h3" data-i18n="w.t1">Переднее крыло, вмятина</h3>
-      <div class="scale">
-        <div class="scale-line" role="slider" tabindex="0" aria-label="Кадры ремонта" data-i18n-aria="w.slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="scale-fill"></i><b class="scale-dot"></b></div>
-        <div class="scale-lb"><button type="button" data-st="0" data-i18n="w.st0">До</button><button type="button" data-st="1" data-i18n="w.st1">В работе</button><button type="button" data-st="2" data-i18n="w.st2">После</button></div>
-      </div>
-    </div>
-    <div class="tape-strip" tabindex="0">
-      <figure class="fr" data-st="0"><div class="fr-ph"><img src="assets/photos/card-64.webp" width="1125" height="2000" alt="Переднее крыло до ремонта" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st0">До</figcaption></figure>
-      <figure class="fr" data-st="0"><div class="fr-ph"><img src="assets/photos/work-8579.webp" width="1125" height="2000" alt="Переднее крыло до ремонта, общий план" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st0">До</figcaption></figure>
-      <figure class="fr" data-st="1"><div class="fr-ph"><img src="assets/photos/work-8806.webp" width="1125" height="2000" alt="Переднее крыло в работе" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st1">В работе</figcaption></figure>
-      <figure class="fr" data-st="1"><div class="fr-ph"><video class="loop" muted loop playsinline preload="none" poster="assets/video/poster-8813.webp" data-src="assets/video/loop-8813.mp4"></video></div><figcaption data-i18n="w.st1">В работе</figcaption></figure>
-      <figure class="fr" data-st="2"><div class="fr-ph"><img src="assets/photos/card-72.webp" width="1125" height="2000" alt="Переднее крыло после ремонта" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st2">После</figcaption></figure>
-      <figure class="fr" data-st="2"><div class="fr-ph"><img src="assets/photos/work-8829.webp" width="1125" height="2000" alt="Переднее крыло после ремонта, общий план" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st2">После</figcaption></figure>
-    </div>
-  </article>
-
-  <article class="tape" data-tape>
-    <div class="wrap tape-top">
-      <h3 class="h3" data-i18n="w.t2">Вмятина</h3>
-      <div class="scale">
-        <div class="scale-line" role="slider" tabindex="0" aria-label="Кадры ремонта" data-i18n-aria="w.slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="scale-fill"></i><b class="scale-dot"></b></div>
-        <div class="scale-lb"><button type="button" data-st="0" data-i18n="w.st0">До</button><button type="button" data-st="1" data-i18n="w.st1">В работе</button><button type="button" data-st="2" data-i18n="w.st2">После</button></div>
-      </div>
-    </div>
-    <div class="tape-strip" tabindex="0">
-      <figure class="fr" data-st="0"><div class="fr-ph"><img src="assets/photos/card-75.webp" width="1125" height="2000" alt="Вмятина до ремонта" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st0">До</figcaption></figure>
-      <figure class="fr" data-st="0"><div class="fr-ph"><img src="assets/photos/work-8902.webp" width="1125" height="2000" alt="Вмятина до ремонта, крупный план" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st0">До</figcaption></figure>
-      <figure class="fr" data-st="1"><div class="fr-ph"><video class="loop" muted loop playsinline preload="none" poster="assets/video/poster-8912.webp" data-src="assets/video/loop-8912.mp4"></video></div><figcaption data-i18n="w.st1">В работе</figcaption></figure>
-      <figure class="fr" data-st="2"><div class="fr-ph"><img src="assets/photos/work-8913.webp" width="1125" height="2000" alt="Деталь после ремонта" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st2">После</figcaption></figure>
-    </div>
-  </article>
-
-  <article class="tape" data-tape>
-    <div class="wrap tape-top">
-      <h3 class="h3" data-i18n="w.t2">Вмятина</h3>
-      <div class="scale">
-        <div class="scale-line" role="slider" tabindex="0" aria-label="Кадры ремонта" data-i18n-aria="w.slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="scale-fill"></i><b class="scale-dot"></b></div>
-        <div class="scale-lb"><button type="button" data-st="0" data-i18n="w.st0">До</button><button type="button" data-st="1" data-i18n="w.st1">В работе</button><button type="button" data-st="2" data-i18n="w.st2">После</button></div>
-      </div>
-    </div>
-    <div class="tape-strip" tabindex="0">
-      <figure class="fr" data-st="0"><div class="fr-ph"><img src="assets/photos/work-7636.webp" width="1125" height="2000" alt="Вмятина до ремонта" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st0">До</figcaption></figure>
-      <figure class="fr" data-st="0"><div class="fr-ph"><img src="assets/photos/work-7635.webp" width="1125" height="2000" alt="Вмятина до ремонта, крупный план" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st0">До</figcaption></figure>
-      <figure class="fr" data-st="2"><div class="fr-ph"><img src="assets/photos/plate-58.webp" width="1125" height="2000" alt="Деталь после ремонта" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st2">После</figcaption></figure>
-      <figure class="fr" data-st="2"><div class="fr-ph"><img src="assets/photos/work-7674.webp" width="1125" height="2000" alt="Деталь после ремонта, общий план" loading="lazy" decoding="async"></div><figcaption data-i18n="w.st2">После</figcaption></figure>
-    </div>
-  </article>
-
-  <div class="wrap works-cta rv">
-    <a class="btn btn-ghost btn-lg" href="https://www.instagram.com/dragoncar01" target="_blank" rel="noopener"><svg width="20" height="20"><use href="#ic-ig"/></svg><span data-i18n="w.ig">Больше работ в Instagram</span></a>
+      <p class="ba-hint" data-i18n="w.hint">Потяните ползунок, чтобы сравнить деталь до и после ремонта.</p>
+      <a class="btn btn-ghost" href="https://www.instagram.com/dragoncar01" target="_blank" rel="noopener"><svg width="20" height="20"><use href="#ic-ig"/></svg><span data-i18n="w.ig">Больше работ в Instagram</span></a>
+    </aside>
   </div>
 </section>
 
@@ -555,6 +508,6 @@
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/SplitText.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>
-<script src="script.js?v=20261112-2" defer></script>
+<script src="script.js?v=20261112-3" defer></script>
 </body>
 </html>
