@@ -53,6 +53,7 @@ window.SITE_EN = {
   "w.lead": "Each strip is one vehicle: the damage, the technician at work and the finished panel.",
   "w.t1": "Front fender, dent",
   "w.t2": "Dent",
+  "w.t3": "Dent under the PDR lamp: before and after",
   "w.st0": "Before",
   "w.st1": "In progress",
   "w.st2": "After",
