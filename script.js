@@ -398,7 +398,7 @@
     $$('.edu-art').forEach(function (svg) {
       var ps = $$('.e-ln, .e-ref', svg);
       ps.forEach(function (p) { var L = p.getTotalLength(); if (!p.classList.contains('e-ref')) { p.style.strokeDasharray = L; p.style.strokeDashoffset = L; } });
-      gsap.to($$('.e-ln', svg), { strokeDashoffset: 0, duration: 1.6, stagger: 0.12, ease: 'power2.inOut', scrollTrigger: { trigger: svg, start: 'top 80%', once: true } });
+      gsap.to($$('.e-ln', svg), { strokeDashoffset: 0, duration: 1.6, stagger: 0.12, ease: 'power2.inOut', scrollTrigger: { trigger: svg, start: 'top 80%', once: true }, onComplete: function () { $$('.e-ln', svg).forEach(function (p) { p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; }); svg.classList.add('is-drawn'); } });
     });
     $$('[data-par]').forEach(function (el) {
       var v = parseFloat(el.getAttribute('data-par'));
@@ -410,6 +410,26 @@
     gsap.from('.ftr-word', { yPercent: 70, ease: 'none', scrollTrigger: { trigger: '.ftr', start: 'top bottom', end: 'bottom bottom', scrub: 0.5 } });
     window.addEventListener('load', function () { ST.refresh(); });
   }
+
+  /* ---------- Обучение PDR: палочка выдавливает вмятину, слои идут за ней ---------- */
+  (function () {
+    var svg = $('#obuchenie-pdr .edu-art'); if (!svg || RM) return;
+    var lns = $$('.e-ln', svg), tool = $('.e-tool', svg), tip = $('.e-tip', svg), up = $('.e-up', svg);
+    var Y = [92, 106, 120, 136], DEP = 58, LIFT = 16, T = 2600, on = false, raf = 0, t0 = 0;
+    if (!gsap || !ST) svg.classList.add('is-drawn');
+    function dent(y, d) { return 'M20 ' + y + 'H170C215 ' + y + ' 222 ' + (y + d).toFixed(2) + ' 260 ' + (y + d).toFixed(2) + 'S305 ' + y + ' 350 ' + y + 'H500'; }
+    function frame(now) {
+      if (!t0) t0 = now;
+      var k = (1 - Math.cos(((now - t0) % T) / T * Math.PI * 2)) / 2, l = k * LIFT;
+      if (svg.classList.contains('is-drawn')) lns.forEach(function (p, i) { p.setAttribute('d', dent(Y[i], DEP - l)); });
+      tool.setAttribute('d', 'M40 246 214 ' + (226 - l * 0.35).toFixed(2) + ' 250 ' + (204 - l).toFixed(2) + ' 260 ' + (198 - l).toFixed(2));
+      tip.setAttribute('cy', (198 - l).toFixed(2));
+      if (up) { up.style.transform = 'translateY(' + (6 - k * 10).toFixed(2) + 'px)'; up.style.opacity = (0.3 + k * 0.7).toFixed(3); }
+      raf = on ? requestAnimationFrame(frame) : 0;
+    }
+    svg.classList.add('is-js');
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { on = en[0].isIntersecting; if (on && !raf) raf = requestAnimationFrame(frame); }).observe(svg);
+  })();
 
   /* ---------- Бегущая строка ---------- */
   (function () {
@@ -456,7 +476,8 @@
         var x = k === 0 ? 0 : k === vis.length - 1 ? max : xOf(firstOf(+b.getAttribute('data-st')));
         return { u: u, x: x, b: b };
       });
-      for (var k = 1; k < A.length; k++) if (A[k].x < A[k - 1].x) A[k].x = A[k - 1].x;
+      /* короткая лента: «В работе» упирается в край прокрутки и съедает «После» - тогда этап ставим пропорционально */
+      for (var k = 1; k < A.length - 1; k++) if (A[k].x <= A[k - 1].x + 2 || A[k].x >= max - 2) A[k].x = A[k].u * max;
       upd();
     }
     function xToU(x) {

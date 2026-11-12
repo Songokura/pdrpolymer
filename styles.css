@@ -325,6 +325,7 @@ body.menu-open .hdr{background:#fff}
 .edu-art .e-fill{fill:var(--uv);opacity:.85}
 .edu-art .e-cone{stroke:none;fill:url(#eUv)}
 .edu-card .e-tool,.edu-card .e-tip,.edu-card .e-up{animation:gtap 2.6s var(--ease) infinite}
+.edu-art.is-js .e-tool,.edu-art.is-js .e-tip,.edu-art.is-js .e-up{animation:none}
 .edu-card .e-up{animation-name:eup}
 @keyframes eup{0%,100%{transform:translateY(6px);opacity:.3}50%{transform:translateY(-4px);opacity:1}}
 .edu-card .e-cone{animation:econe 3.2s ease-in-out infinite}
