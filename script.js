@@ -101,8 +101,9 @@
     var target = id === '#top' ? null : $(id);
     if (id !== '#top' && !target) return;
     e.preventDefault();
+    if (document.body.classList.contains('menu-open')) menu(false);
     var y = target ? target.getBoundingClientRect().top + window.scrollY - 70 : 0;
-    if (lenis) lenis.scrollTo(y, { duration: 1.2 }); else window.scrollTo({ top: y, behavior: RM ? 'auto' : 'smooth' });
+    if (lenis) lenis.scrollTo(y, { duration: 1.2, force: true }); else window.scrollTo({ top: y, behavior: RM ? 'auto' : 'smooth' });
     history.replaceState(null, '', id);
   }, true);
 
