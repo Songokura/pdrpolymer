@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&family=Golos+Text:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&family=Golos+Text:wght@400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="styles.css?v=20261112-4">
+<link rel="stylesheet" href="styles.css?v=20261116-1">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":["LocalBusiness","AutoRepair"],"name":"Pdr Polymer center","url":"https://songokura.github.io/pdrpolymer/","image":"https://songokura.github.io/pdrpolymer/assets/img/og-image.jpg","logo":"https://songokura.github.io/pdrpolymer/assets/img/logo-512.png","telephone":"+77789450969","email":"kuzoff.kz@gmail.com","address":{"@type":"PostalAddress","streetAddress":"Бауржан Момышулы 4а","addressLocality":"Астана","addressCountry":"KZ"},"areaServed":"Астана","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"19:30"},"sameAs":["https://www.instagram.com/dragoncar01","https://t.me/dragoncar01"],"description":"Удаление вмятин, ремонт царапин и сколов без покраски в Астане. Продажа полимера и обучение мастеров."}
 </script>
@@ -90,67 +90,83 @@
 
 <main>
 
-<!-- Герой и закреплённая сцена «Два метода» -->
-<section class="stage-wrap" id="top">
-  <span class="anchor-methods" id="metody"></span>
-  <div class="stage" id="stage">
-    <div class="scene" id="scene" aria-hidden="true">
-      <div class="sc-far" id="scFar"></div>
-      <div class="sc-cam" id="scCam">
-        <div class="sc-main" id="scMain"></div>
-        <div class="sc-labels" id="scLabels">
-          <span class="lb" data-layer="0"><i></i><b data-i18n="hero.l1">Лак</b></span>
-          <span class="lb" data-layer="1"><i></i><b data-i18n="hero.l2">Краска</b></span>
-          <span class="lb" data-layer="2"><i></i><b data-i18n="hero.l3">Грунт</b></span>
-          <span class="lb" data-layer="3"><i></i><b data-i18n="hero.l4">Металл</b></span>
-        </div>
-      </div>
-      <div class="sc-dust" id="scDust"></div>
-    </div>
-
-    <div class="hero" id="hero">
+<!-- Герой: фото мастера, цены, заявка -->
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true">
+    <picture>
+      <source media="(max-width:759px)" srcset="assets/photos/hero-m-35.webp">
+      <img src="assets/photos/hero-35.webp" width="2160" height="2400" alt="" fetchpriority="high" decoding="async">
+    </picture>
+  </div>
+  <div class="hero-in">
+    <div class="hero-txt">
       <p class="kicker-hero" data-i18n="hero.kicker">Астана · PDR и полимер · с 2014 года</p>
       <h1 class="h1" data-i18n="hero.h1">Удаление вмятин и ремонт сколов без покраски</h1>
       <p class="lead hero-lead" data-i18n="hero.lead">Заводское лакокрасочное покрытие сохраняется: без шпаклёвки и покраски детали. Оплата по окончании работ, без предоплаты.</p>
+      <ul class="prices" aria-label="Цены" data-i18n-aria="pr.aria">
+        <li><span data-i18n="pr.dent">Вмятины</span><b data-i18n="pr.dent.v">от&nbsp;10&nbsp;000&nbsp;₸</b></li>
+        <li><span data-i18n="pr.chip">Сколы</span><b data-i18n="pr.chip.v">от&nbsp;20&nbsp;000&nbsp;₸</b></li>
+        <li><span data-i18n="pr.scr">Царапины</span><b data-i18n="pr.scr.v">от&nbsp;20&nbsp;000&nbsp;₸</b></li>
+      </ul>
+      <p class="prices-note" data-i18n="pr.note">Точная стоимость - после осмотра автомобиля.</p>
       <div class="hero-btns">
         <a class="btn btn-main" href="https://wa.me/77789450969" data-wa="hero" target="_blank" rel="noopener"><svg width="20" height="20"><use href="#ic-wa"/></svg><span data-i18n="hero.b1">Написать в WhatsApp</span></a>
-        <a class="btn btn-ghost" href="#uslugi"><span data-i18n="hero.b2">Смотреть услуги</span><svg width="18" height="18"><use href="#ic-arr"/></svg></a>
+        <a class="btn btn-ghost" href="tel:+77789450969"><svg width="18" height="18"><use href="#ic-tel"/></svg><span data-i18n="c.b.call">Позвонить</span></a>
       </div>
       <a class="ig-link" href="https://www.instagram.com/dragoncar01" target="_blank" rel="noopener"><svg width="18" height="18"><use href="#ic-ig"/></svg><span data-i18n="hero.ig">Работы центра в Instagram →</span></a>
     </div>
+    <form class="form hero-form js-lead" id="zayavka-top" novalidate>
+      <p class="hf-t" data-i18n="hf.t">Запись на осмотр</p>
+      <p class="hf-s" data-i18n="hf.s">Оставьте имя и телефон - ответим в WhatsApp в течение 10-15 минут в рабочее время.</p>
+      <label class="fld"><span data-i18n="c.f.name">Имя</span><input type="text" name="name" autocomplete="name" required></label>
+      <label class="fld"><span data-i18n="c.f.phone">Телефон</span><input type="tel" name="phone" id="h-phone" autocomplete="tel" inputmode="tel" placeholder="+7" required></label>
+      <fieldset class="topics">
+        <legend data-i18n="hf.topic">Что нужно</legend>
+        <label><input type="radio" name="topic" value="hf.t1" checked><span data-i18n="hf.t1">Вмятина</span></label>
+        <label><input type="radio" name="topic" value="hf.t2"><span data-i18n="hf.t2">Скол</span></label>
+        <label><input type="radio" name="topic" value="hf.t3"><span data-i18n="hf.t3">Царапина</span></label>
+        <label><input type="radio" name="topic" value="c.f.t2"><span data-i18n="hf.t4">Полимер</span></label>
+        <label><input type="radio" name="topic" value="c.f.t3"><span data-i18n="c.f.t3">Обучение</span></label>
+      </fieldset>
+      <button class="btn btn-main btn-lg" type="submit"><svg width="20" height="20"><use href="#ic-wa"/></svg><span data-i18n="c.f.send">Отправить заявку</span></button>
+    </form>
+  </div>
+</section>
 
-    <ul class="legend" id="legend" aria-hidden="true">
-      <li><i style="--c:var(--lac)"></i><span data-i18n="hero.l1">Лак</span></li>
-      <li><i style="--c:var(--paint)"></i><span data-i18n="hero.l2">Краска</span></li>
-      <li><i style="--c:var(--primer)"></i><span data-i18n="hero.l3">Грунт</span></li>
-      <li><i style="--c:var(--metal)"></i><span data-i18n="hero.l4">Металл</span></li>
+<!-- Какие вмятины убираем -->
+<section class="sec sec-kinds" id="vidy-vmyatin">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="kick"><i class="ly"></i><span data-i18n="k.kicker">Вмятины</span></p>
+      <h2 class="h2 split" data-i18n="k.h2">Какие вмятины убираем без покраски</h2>
+      <p class="lead rv" data-i18n="k.lead">Если лак и краска на месте вмятины не повреждены, металл возвращается в форму без шпаклёвки и покраски.</p>
+    </header>
+    <ul class="kinds">
+      <li class="kind rv">
+        <svg class="kind-art" viewBox="0 0 160 84" aria-hidden="true"><g class="k-drop"><circle cx="34" cy="10" r="4"/><circle cx="80" cy="4" r="4"/><circle cx="124" cy="12" r="4"/></g><path class="k-l1" d="M6 52H22C28 52 29 60 34 60S40 52 46 52H68C74 52 75 60 80 60S86 52 92 52H112C118 52 119 60 124 60S130 52 136 52H154"/><path class="k-l2" d="M6 62H22C28 62 29 70 34 70S40 62 46 62H68C74 62 75 70 80 70S86 62 92 62H112C118 62 119 70 124 70S130 62 136 62H154"/></svg>
+        <h3 class="h3" data-i18n="k.1.t">От града</h3>
+        <p data-i18n="k.1.p">Много мелких вмятин на капоте, крыше и крышке багажника.</p>
+      </li>
+      <li class="kind rv">
+        <svg class="kind-art" viewBox="0 0 160 84" aria-hidden="true"><path class="k-arr" d="M14 22H58m-10-9 10 9-10 9"/><path class="k-l1" d="M6 52H48C70 52 74 70 92 70S118 52 134 52H154"/><path class="k-l2" d="M6 62H48C70 62 74 80 92 80S118 62 134 62H154"/></svg>
+        <h3 class="h3" data-i18n="k.2.t">Парковочные</h3>
+        <p data-i18n="k.2.p">Удар дверью соседней машины, касание столба или ограждения.</p>
+      </li>
+      <li class="kind rv">
+        <svg class="kind-art" viewBox="0 0 160 84" aria-hidden="true"><path class="k-arr" d="M80 6V36m-9-10 9 10 9-10"/><path class="k-l1" d="M6 52H50C68 52 70 72 80 72S92 52 110 52H154"/><path class="k-l2" d="M6 62H50C68 62 70 82 80 82S92 62 110 62H154"/></svg>
+        <h3 class="h3" data-i18n="k.3.t">От рук и ног</h3>
+        <p data-i18n="k.3.p">Продавленный капот, крыша или дверь: облокотились, сели, ударили ногой.</p>
+      </li>
+      <li class="kind rv">
+        <svg class="kind-art" viewBox="0 0 160 84" aria-hidden="true"><path class="k-arr k-trail" d="M30 14 58 30M24 24 50 38"/><circle class="k-stone" cx="68" cy="36" r="6"/><path class="k-l1" d="M6 52H66C74 52 76 64 82 64S90 52 98 52H154"/><path class="k-l2" d="M6 62H66C74 62 76 74 82 74S90 62 98 62H154"/></svg>
+        <h3 class="h3" data-i18n="k.4.t">От летящих предметов</h3>
+        <p data-i18n="k.4.p">Камни, ветки, лёд с крыши и мусор на дороге.</p>
+      </li>
     </ul>
-
-    <div class="methods" id="methods">
-      <div class="m-head">
-        <p class="kick"><i class="ly"></i><span data-i18n="m.kicker">Методы</span></p>
-        <h2 class="h2 m-h2" data-i18n="m.h2">Два метода ремонта без покраски</h2>
-        <div class="m-prog" aria-hidden="true"><i id="mBar1"></i><i id="mBar2"></i></div>
-      </div>
-      <article class="m-step" id="mStep1">
-        <h3 class="h3" data-i18n="m.s1.t">PDR - удаление вмятин</h3>
-        <p data-i18n="m.s1.p">Мастер возвращает металл в исходную форму специальным инструментом с обратной стороны панели. Лак, краска и грунт остаются заводскими.</p>
-      </article>
-      <article class="m-step" id="mStep2">
-        <h3 class="h3" data-i18n="m.s2.t">Полимер - ремонт царапин и сколов</h3>
-        <p data-i18n="m.s2.p">Повреждение покрытия заполняется полимером локально, только в месте скола или царапины. Деталь не перекрашивается.</p>
-      </article>
-      <figure class="m-card" id="mCard1">
-        <div class="m-ph"><img src="assets/photos/m-76.webp" width="600" height="1067" alt="Вмятина под лампой до ремонта" data-i18n-alt="m.c1" decoding="async"></div>
-        <figcaption data-i18n="m.c1">Вмятина под лампой до ремонта</figcaption>
-      </figure>
-      <figure class="m-card" id="mCard2">
-        <div class="m-ph"><video id="mVid" muted loop playsinline preload="none" poster="assets/video/poster-7386.webp" data-src="assets/video/loop-7386.mp4"></video></div>
-        <figcaption data-i18n="m.c2">Нанесение полимера</figcaption>
-      </figure>
+    <div class="sec-cta rv">
+      <p class="note"><span data-i18n="k.note">Удаление вмятин - от&nbsp;10&nbsp;000&nbsp;₸.</span> <a class="note-a" href="#remont-polimerom" data-i18n="k.note2">Сколы и царапины - ремонт полимером</a></p>
+      <a class="btn btn-main btn-lg" href="https://wa.me/77789450969" data-wa="svcAll" target="_blank" rel="noopener"><svg width="20" height="20"><use href="#ic-wa"/></svg><span data-i18n="s.cta">Записаться на осмотр</span></a>
     </div>
-
-    <div class="scroll-hint" id="scrollHint" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
@@ -160,7 +176,7 @@
     <header class="sec-head">
       <p class="kick"><i class="ly"></i><span data-i18n="s.kicker">Услуги</span></p>
       <h2 class="h2 split" data-i18n="s.h2">Ремонт вмятин, царапин и сколов</h2>
-      <p class="lead rv" data-i18n="s.lead">Работаем с автомобилями частных лиц, компаний и организаций. Стоимость определяется после осмотра и зависит от характера повреждения.</p>
+      <p class="lead rv" data-i18n="s.lead">Работаем с автомобилями частных лиц, компаний и организаций. Точная стоимость определяется после осмотра и зависит от характера повреждения.</p>
     </header>
 
     <div class="grp" id="pdr">
@@ -174,6 +190,7 @@
             <path class="g-rod" d="M18 54 52 52 60 49"/>
           </svg>
           <h3 class="h3" data-i18n="s.g1">Удаление вмятин, PDR</h3>
+          <p class="price-tag" data-i18n="pr.dent.v">от&nbsp;10&nbsp;000&nbsp;₸</p>
         </div>
         <ul class="svc-list">
           <li class="svc" id="udalenie-vmyatin"><span class="svc-n" data-i18n="s.p1">Удаление вмятин без покраски</span><a class="svc-b" href="https://wa.me/77789450969" data-wa="svc" data-wa-name="s.p1" target="_blank" rel="noopener"><span data-i18n="s.btn">Узнать стоимость</span><svg width="18" height="18"><use href="#ic-wa"/></svg></a></li>
@@ -197,6 +214,7 @@
             <path class="g-uv" d="M52 4H68M54 9 50 20M60 9V20M66 9 70 20"/>
           </svg>
           <h3 class="h3" data-i18n="s.g2">Ремонт полимером</h3>
+          <p class="price-tag" data-i18n="pr.chip.v">от&nbsp;20&nbsp;000&nbsp;₸</p>
         </div>
         <ul class="svc-list">
           <li class="svc" id="carapiny-polimerom"><span class="svc-n" data-i18n="s.q1">Ремонт царапин полимером</span><a class="svc-b" href="https://wa.me/77789450969" data-wa="svc" data-wa-name="s.q1" target="_blank" rel="noopener"><span data-i18n="s.btn">Узнать стоимость</span><svg width="18" height="18"><use href="#ic-wa"/></svg></a></li>
@@ -209,8 +227,59 @@
     </div>
 
     <div class="sec-cta rv">
-      <p class="note" data-i18n="s.note">Стоимость - после осмотра.</p>
+      <p class="note" data-i18n="s.note">Вмятины - от&nbsp;10&nbsp;000&nbsp;₸, сколы и царапины - от&nbsp;20&nbsp;000&nbsp;₸.</p>
       <a class="btn btn-main btn-lg" href="https://wa.me/77789450969" data-wa="svcAll" target="_blank" rel="noopener"><svg width="20" height="20"><use href="#ic-wa"/></svg><span data-i18n="s.cta">Записаться на осмотр</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- Два метода: сцена-разрез -->
+<section class="sec sec-methods" id="metody">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="kick"><i class="ly"></i><span data-i18n="m.kicker">Методы</span></p>
+      <h2 class="h2 split" data-i18n="m.h2">Два метода ремонта без покраски</h2>
+    </header>
+  </div>
+  <div class="stage" id="stage">
+    <div class="scene" id="scene" aria-hidden="true">
+      <div class="sc-far" id="scFar"></div>
+      <div class="sc-cam" id="scCam">
+        <div class="sc-main" id="scMain"></div>
+        <div class="sc-labels" id="scLabels">
+          <span class="lb" data-layer="0"><i></i><b data-i18n="hero.l1">Лак</b></span>
+          <span class="lb" data-layer="1"><i></i><b data-i18n="hero.l2">Краска</b></span>
+          <span class="lb" data-layer="2"><i></i><b data-i18n="hero.l3">Грунт</b></span>
+          <span class="lb" data-layer="3"><i></i><b data-i18n="hero.l4">Металл</b></span>
+        </div>
+      </div>
+      <div class="sc-dust" id="scDust"></div>
+    </div>
+    <ul class="legend" id="legend" aria-hidden="true">
+      <li><i style="--c:var(--lac)"></i><span data-i18n="hero.l1">Лак</span></li>
+      <li><i style="--c:var(--paint)"></i><span data-i18n="hero.l2">Краска</span></li>
+      <li><i style="--c:var(--primer)"></i><span data-i18n="hero.l3">Грунт</span></li>
+      <li><i style="--c:var(--metal)"></i><span data-i18n="hero.l4">Металл</span></li>
+    </ul>
+  </div>
+  <div class="wrap">
+    <div class="methods">
+      <article class="m-item rv">
+        <figure class="m-card"><div class="m-ph"><img src="assets/photos/m-76.webp" width="600" height="1067" alt="Вмятина под лампой до ремонта" data-i18n-alt="m.c1" loading="lazy" decoding="async"></div></figure>
+        <div class="m-txt">
+          <h3 class="h3" data-i18n="m.s1.t">PDR - удаление вмятин</h3>
+          <p data-i18n="m.s1.p">Мастер возвращает металл в исходную форму специальным инструментом с обратной стороны панели. Лак, краска и грунт остаются заводскими.</p>
+          <p class="m-price" data-i18n="pr.dent.l">Вмятины - от&nbsp;10&nbsp;000&nbsp;₸</p>
+        </div>
+      </article>
+      <article class="m-item m-uv rv">
+        <figure class="m-card"><div class="m-ph"><video id="mVid" muted loop playsinline preload="none" poster="assets/video/poster-7386.webp" data-src="assets/video/loop-7386.mp4"></video></div></figure>
+        <div class="m-txt">
+          <h3 class="h3" data-i18n="m.s2.t">Полимер - ремонт царапин и сколов</h3>
+          <p data-i18n="m.s2.p">Повреждение покрытия заполняется полимером локально, только в месте скола или царапины. Деталь не перекрашивается.</p>
+          <p class="m-price" data-i18n="pr.poly.l">Сколы и царапины - от&nbsp;20&nbsp;000&nbsp;₸</p>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -372,6 +441,7 @@
         </svg>
         <h3 class="h3" data-i18n="e.d1.t">Обучение удалению вмятин без покраски</h3>
         <p data-i18n="e.d1.p">Практическая подготовка по технологии PDR.</p>
+        <p class="edu-price" data-i18n="e.price">Стоимость - по запросу</p>
         <a class="btn btn-main" href="https://wa.me/77789450969" data-wa="edu" data-wa-name="e.d1.t" target="_blank" rel="noopener"><svg width="20" height="20"><use href="#ic-wa"/></svg><span data-i18n="e.btn">Запросить программу</span></a>
       </article>
       <article class="edu-card edu-uv rv" id="obuchenie-polimer">
@@ -387,6 +457,7 @@
         </svg>
         <h3 class="h3" data-i18n="e.d2.t">Обучение работы с полимером</h3>
         <p data-i18n="e.d2.p">Ремонт царапин и сколов полимером THE TSARAPINOFF.</p>
+        <p class="edu-price" data-i18n="e.price">Стоимость - по запросу</p>
         <a class="btn btn-main" href="https://wa.me/77789450969" data-wa="edu" data-wa-name="e.d2.t" target="_blank" rel="noopener"><svg width="20" height="20"><use href="#ic-wa"/></svg><span data-i18n="e.btn">Запросить программу</span></a>
       </article>
     </div>
@@ -467,7 +538,7 @@
           <a class="btn btn-ghost" href="https://www.instagram.com/dragoncar01" target="_blank" rel="noopener"><svg width="18" height="18"><use href="#ic-ig"/></svg><span data-i18n="c.b.ig">Работы в Instagram</span></a>
         </div>
       </div>
-      <form class="form rv" id="zayavka" novalidate>
+      <form class="form rv js-lead" id="zayavka" novalidate>
         <label class="fld"><span data-i18n="c.f.name">Имя</span><input type="text" name="name" autocomplete="name" required></label>
         <label class="fld"><span data-i18n="c.f.phone">Телефон</span><input type="tel" name="phone" id="f-phone" autocomplete="tel" inputmode="tel" placeholder="+7" required></label>
         <fieldset class="topics">
@@ -508,6 +579,6 @@
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/SplitText.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>
-<script src="script.js?v=20261112-4" defer></script>
+<script src="script.js?v=20261116-1" defer></script>
 </body>
 </html>
