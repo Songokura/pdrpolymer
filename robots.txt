@@ -8,4 +8,4 @@ User-agent: AdsBot-Google-Mobile
 Disallow: /assets/lang/
 Disallow: /*lang=kk
 
-Sitemap: https://songokura.github.io/pdrpolymer/sitemap.xml
+Sitemap: https://autoprof.kz/sitemap.xml
